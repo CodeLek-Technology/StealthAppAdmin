@@ -1,0 +1,1 @@
+from StealthApplication.wsgi import application
