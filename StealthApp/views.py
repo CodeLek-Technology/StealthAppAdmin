@@ -1,9 +1,6 @@
-import json
-from urllib import request
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import is_valid_path
-import jwt
-from django.shortcuts import get_object_or_404, render
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from StealthApp.forms import AddUserForm
@@ -75,16 +72,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class LocationViews(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
-
     def post(self, request, format=None):
-        token = str(request.headers['Authorization']).split("Bearer ")
-        decoded_token = jwt.decode(token[1], None, None)
-
-        # print(request.data['locations'][0]['latitude'])
         create_bulk = []
         for iterator in request.data['locations']:
-            usr= get_object_or_404(User, pk=decoded_token['user_id'])
-            loc = Location(user= usr, latitude= iterator['latitude'], longitude= iterator['longitude'])
+            loc = Location(user= request.user, latitude= iterator['latitude'], longitude= iterator['longitude'])
             create_bulk.append(loc)
         Location.objects.bulk_create(create_bulk)
         return Response({'message': 'Location Uploaded'}, status=status.HTTP_201_CREATED)
@@ -99,10 +90,8 @@ class LoginHistoryViews(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, format=None):
-        token = str(request.headers['Authorization']).split("Bearer ")
-        decoded_token = jwt.decode(token[1], None, None)
 
-        loc = LoginHistorySerializer(data={"user": decoded_token['user_id'], "session_type": request.data['session_type']})
+        loc = LoginHistorySerializer(data={"user": request.user.id, "session_type": request.data['session_type']})
         if loc.is_valid(raise_exception=True):
             loc.save()
             return Response({'message': 'Login History Uploaded'}, status=status.HTTP_201_CREATED)

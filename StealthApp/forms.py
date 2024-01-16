@@ -11,7 +11,7 @@ class FormSettings(forms.ModelForm):
         try:
             self.fields['phone_no'].label = "Phone Number"
             self.fields['password'].label = "Create Password"
-        except:
+        except:  # noqa: E722
             pass
         # Here make some changes such as:
         for field in self.visible_fields():

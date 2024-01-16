@@ -15,7 +15,7 @@ SECRET_KEY = 'django-insecure-kdfbjcl@!hjddovh&)*ektb7-)4nxy7r=1!$0n8d6+xg$ew!xn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['csjmukanpur.in']
 
 
 # Application definition
@@ -119,7 +119,7 @@ REST_FRAMEWORK = {
 }
 
 
-from datetime import timedelta
+from datetime import timedelta  # noqa: E402
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=12),
@@ -175,12 +175,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATIC_ROOT = '/home/k3ckuc9rzgsj/public_html/csjmukanpur.in/static'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static'
+# ]
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = '/home/k3ckuc9rzgsj/public_html/csjmukanpur.in/media'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
