@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+
+{% block body %}
+{% load static %}
+
+<section class="container mx-auto">
+    <div class="bg-gray-100">
+        <div class="container mx-auto py-8">
+            <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
+
+                <div class="col-span-4 sm:col-span-3">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <div class="flex flex-col items-center">
+                            <img src="/media/{{user.profile_picture}}"
+                                class="w-32 h-32 bg-gray-300 rounded-full mb-4 shrink-0">
+
+                            </img>
+                            <h1 class="text-xl font-bold">{{user.first_name}} {{user.last_name}}</h1>
+                            <p class="text-gray-700">{{user.phone_no}}</p>
+                            <div class="mt-6 flex flex-wrap gap-4 justify-center">
+
+                                <button type="button" onclick="goToProfile({{user.id}})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Show Locations</button>
+
+                                <button onclick="goToLogHistory({{user.id}})" type="button"
+                                    class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Login
+                                    History</button>
+                                <a href="#">
+                                    <button type="button"
+                                        class="focus:outline-none text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Listen
+                                        Audio</button>
+                                </a>
+                                <a href="">
+                                    <button type="button"
+                                        class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">See
+                                        Sent Images</button>
+                                </a>
+                                <!-- <a href="#">
+                                    <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">Login History</button>
+                                </a> -->
+                            </div>
+                        </div>
+                        <!-- <hr class="my-6 border-t border-gray-300"> -->
+                        <!-- <div class="flex flex-col">
+                            <span class="text-gray-700 uppercase font-bold tracking-wider mb-2">Skills</span>
+                            <ul>
+                                <li class="mb-2">JavaScript</li>
+                                <li class="mb-2">React</li>
+                                <li class="mb-2">Node.js</li>
+                                <li class="mb-2">HTML/CSS</li>
+                                <li class="mb-2">Tailwind Css</li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-span-4 sm:col-span-9">
+                    <div class="bg-white shadow rounded-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Login History</h2>
+                        <form method="get" class="">
+                            <input type="date" name="timeframe"
+                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                                value="{{date}}" />
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 mt-2">Get
+                                History</button>
+                        </form>
+                        <div>
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+                                <table
+                                    class="w-full text-sm text-left rtl:text-right text-gray-500 border border-gray-300">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">
+                                                ID
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Employee Image
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Employee Name
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Session Type
+                                            </th>
+                                            <th scope="col" class="px-6 py-3">
+                                                Time
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in login_history %}
+                                        <tr class="bg-white border-b">
+
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                                                {{i.user.id}}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                <img src="/media/{{i.user.profile_picture}}"
+                                                    class="h-12 w-12 rounded-full" alt="">
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{i.user.first_name}} {{i.user.last_name}}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {% if i.session_type == 'LOGIN' %}
+                                                <div
+                                                    class="w-full bg-green-500 inline-flex justify-center text-white shadow-md font-medium rounded-lg text-sm px-3 py-2 me-2 mb-2">
+                                                    LOGIN</div>
+                                                {% elif i.session_type == 'LOGOUT' %}
+                                                <div
+                                                    class="w-full bg-red-500 inline-flex justify-center text-white shadow-md font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                                    LOGOUT</div>
+                                                {% endif %}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{i.timestamp}}
+                                                <!-- <button onclick="goToProfile({{i.id}})" type="button"
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 cursor-pointer">Show Profile</button> -->
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        function goToProfile(id) {
+            const date = new Date().toJSON().slice(0, 10);
+
+            location.href = `/main/profile/${id}?timeframe=${date}`
+        }
+
+        function goToLogHistory(id) {
+            const date = new Date().toJSON().slice(0, 10);
+
+            location.href = `/main/login-history/${id}?timeframe=${date}`
+        }
+    </script>
+</section>
+
+{% endblock body %}
