@@ -4,28 +4,25 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
 from StealthApp.views import LocationViews, LoginHistoryViews, UserViewSet
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenRefreshView
+from StealthApplication.views import CustomObtainToken
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r"users", UserViewSet)
 
 
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
-    path('admin/', admin.site.urls),
-    path('', include("authentication.urls")),
-    path('main/', include("StealthApp.urls")),
-    path('api/', include(router.urls)),
-    path('api/locations/', LocationViews.as_view()),
-    path('api/login-histories/', LoginHistoryViews.as_view()),
-    path('api-auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api-auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("admin/", admin.site.urls),
+    path("", include("authentication.urls")),
+    path("main/", include("StealthApp.urls")),
+    path("api/", include(router.urls)),
+    path("api/locations/", LocationViews.as_view()),
+    path("api/logout/", LoginHistoryViews.as_view()),
+    path("api-auth/token/", CustomObtainToken.as_view(), name="token_obtain_pair"),
+    path("api-auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 # Example "Response" of route -> 'api-auth/token'
@@ -35,4 +32,3 @@ urlpatterns = [
     "access": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MzIxODYzLCJpYXQiOjE3MDUzMjE1NjMsImp0aSI6ImQzNmJkYjcwZTUxYjQ2ZmNhZGU0OWQ3ZTQ2YjczZDRlIiwidXNlcl9pZCI6MX0.q4oNdeL-XX6DUnfpOQt1NYTFj43_ZyCoh0c7zUFU0tY"
 }
 """
-
