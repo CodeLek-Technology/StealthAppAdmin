@@ -1,0 +1,54 @@
+
+### Login
+POST http://localhost:8000/api-auth/token/
+Content-Type:application/json
+Accept: application/json
+Authorization: None
+
+{
+	"username":"user1",
+	"password":"user1"
+}
+
+### User
+GET http://localhost:8000/api/users/
+Content-Type:application/json
+Accept: application/json
+
+
+### put Location
+POST http://localhost:8000/api/locations/
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1Njg0NTIyLCJpYXQiOjE3MDU2ODQ0NjIsImp0aSI6IjlmNWNlMTVmZDcyZjQzMDFhNTgyYWM3NjY1MWI4YWY0IiwidXNlcl9pZCI6M30.lOEPnydTVVu1kwGoYlVWzL-TEgIxBHgeo1hCc-t75vc
+
+{
+    "locations": [
+		{
+			"latitude": 4.3,
+			"longitude": 2.4
+		},
+		{
+			"latitude": 3.2,
+			"longitude": 4.3
+		},
+		{
+			"latitude": 1.1,
+			"longitude": 5.2
+		}
+	]
+}
+
+### Refresh token
+POST http://localhost:8000/api-auth/token/refresh/
+Content-Type: application/json
+
+{
+    "refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwODI3NjY5MywiaWF0IjoxNzA1Njg0NjkzLCJqdGkiOiI1ZDNhM2UyNjU4YmY0MjFmODI1MmM4ZjQxZmFhNTBhNyIsInVzZXJfaWQiOjN9.bzbNgi6lgBjIRlgdpjagnM_Q2G_gUIAxVAlLjuKnT8k"
+}
+
+
+###
+GET http://localhost:8000/api/logout/
+Content-Type: application/json
+Authorization: Berar 

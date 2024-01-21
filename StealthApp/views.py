@@ -11,7 +11,6 @@ from datetime import datetime, timedelta
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-# from rest_framework.views import APIView
 from rest_framework import status, generics
 
 User = get_user_model()
@@ -88,16 +87,9 @@ class LocationViews(generics.CreateAPIView):
     
 class LoginHistoryViews(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
-
-    def post(self, request, format=None):
-
-        loc = LoginHistorySerializer(data={"user": request.user.id, "session_type": request.data['session_type']})
-        if loc.is_valid(raise_exception=True):
-            loc.save()
-            return Response({'message': 'Login History Uploaded'}, status=status.HTTP_201_CREATED)
     
     def get(self, request, format=None):
-        content = {
-            'message': 'method is not allowed',
-        }
-        return Response(content, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        loc = LoginHistorySerializer(data={"user": request.user.id, "session_type": "LOGOUT"})
+        if loc.is_valid(raise_exception=True):
+            loc.save()
+            return Response({'message': 'Loged out successful'}, status=status.HTTP_200_OK)
