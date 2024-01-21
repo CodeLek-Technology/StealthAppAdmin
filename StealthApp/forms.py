@@ -30,3 +30,11 @@ class AddUserForm(FormSettings):
             'profile_picture': FileInput(attrs={'type': 'file'}),
             # 'closing_date': DateInput(attrs={'type': 'date'}),
         }
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(AddUserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user

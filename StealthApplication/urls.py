@@ -3,11 +3,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
-from StealthApp.views import LocationViews, LoginHistoryViews, UserViewSet
+from StealthApp.views import LocationViews, LoginHistoryViews, ProfileViewSet, UserViewSet
 from rest_framework_simplejwt.views import TokenRefreshView
 from StealthApplication.views import CustomObtainToken
 
-# Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 
@@ -20,6 +19,7 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("api/locations/", LocationViews.as_view()),
     path("api/logout/", LoginHistoryViews.as_view()),
+    path("api/profile/", ProfileViewSet.as_view({'get': 'retrieve'})),
     path("api-auth/token/", CustomObtainToken.as_view(), name="token_obtain_pair"),
     path("api-auth/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

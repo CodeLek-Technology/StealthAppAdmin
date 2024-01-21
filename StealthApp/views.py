@@ -1,6 +1,6 @@
-
+import json
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from StealthApp.forms import AddUserForm
@@ -9,7 +9,7 @@ from StealthApp.models import Location, LoginHistorie
 from .serializers import LoginHistorySerializer, UserSerializer
 from datetime import datetime, timedelta
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status, generics
 
@@ -66,6 +66,7 @@ def add_user(req):
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, IsAdminUser]
     queryset = User.objects.filter(is_staff=False)
     serializer_class = UserSerializer
 
@@ -92,4 +93,13 @@ class LoginHistoryViews(generics.CreateAPIView):
         loc = LoginHistorySerializer(data={"user": request.user.id, "session_type": "LOGOUT"})
         if loc.is_valid(raise_exception=True):
             loc.save()
-            return Response({'message': 'Loged out successful'}, status=status.HTTP_200_OK)
+            return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
+
+class ProfileViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def retrieve(self, request, pk=None):
+        queryset = User.objects.filter(is_staff=False)
+        user = get_object_or_404(queryset, id=request.user.id)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)

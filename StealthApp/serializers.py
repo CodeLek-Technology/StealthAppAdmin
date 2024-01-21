@@ -9,7 +9,7 @@ User = get_user_model()
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['id', 'username', 'first_name', 'last_name', 'phone_no', 'profile_picture']
 
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,3 +39,5 @@ class LoginHistorySerializer(serializers.ModelSerializer):
         hist.save()
 
         return hist
+
+

@@ -10,10 +10,19 @@ Authorization: None
 	"password":"user1"
 }
 
-### User
+
+### Get All User
 GET http://localhost:8000/api/users/
 Content-Type:application/json
 Accept: application/json
+Authorization: Bearer <Token>
+
+
+### Get Profile
+GET http://localhost:8000/api/profile/
+Content-Type:application/json
+Accept: application/json
+Authorization: Bearer <Token>
 
 
 ### put Location
@@ -39,6 +48,8 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiY
 	]
 }
 
+
+
 ### Refresh token
 POST http://localhost:8000/api-auth/token/refresh/
 Content-Type: application/json
@@ -46,6 +57,7 @@ Content-Type: application/json
 {
     "refresh":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwODI3NjY5MywiaWF0IjoxNzA1Njg0NjkzLCJqdGkiOiI1ZDNhM2UyNjU4YmY0MjFmODI1MmM4ZjQxZmFhNTBhNyIsInVzZXJfaWQiOjN9.bzbNgi6lgBjIRlgdpjagnM_Q2G_gUIAxVAlLjuKnT8k"
 }
+
 
 
 ###
